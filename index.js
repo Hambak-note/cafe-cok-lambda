@@ -14,15 +14,10 @@ const folders = [
 
 exports.handler = async (event, _, callback) => {
     const key = event.Records[0].s3.object.key;
-    console.log("key : " + key);
     const parts = key.split("/");
-    console.log("parts : " + parts);
     const lastFolderName = parts[parts.length - 2];
-    console.log("lastFolderName : " + lastFolderName);
     const filename = parts[parts.length - 1];
-    console.log("filename : " + filename);
     const extension = filename.substring(filename.lastIndexOf(".") + 1);
-    console.log("extension : " + extension);
    
     try {
       const image = await s3.getObject({ Bucket: BUCKET, Key: key }).promise();
@@ -61,10 +56,7 @@ exports.handler = async (event, _, callback) => {
   }
 
   async function resizeImage(image, folder) {
-    console.log("진입점_1");
     try {
-        console.log("진입점_2");
-        console.log("너비 : " + folder.width);
         const resizedImage = await sharp(image.Body)
         .resize({ 
             width: folder.width,
@@ -72,8 +64,6 @@ exports.handler = async (event, _, callback) => {
             fit: 'cover',
          })
         .toBuffer();
-        console.log("진입점_3");
-  
       return resizedImage;
     } catch (error) {
       throw new Error(error);
@@ -81,7 +71,6 @@ exports.handler = async (event, _, callback) => {
   }
   
   async function uploadToS3(resizedImage, folder, filename, extension) {
-    console.log("진입점_4");
     const params = {
       Bucket: BUCKET,
       Key: `${folder}/${filename}`,
@@ -89,8 +78,6 @@ exports.handler = async (event, _, callback) => {
       ACL: 'public-read',
       ContentType: 'image/'+extension,
     };
-
-    console.log("진입점_5");
   
     try {
       await s3.putObject(params).promise();
