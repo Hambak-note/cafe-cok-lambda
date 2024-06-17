@@ -9,7 +9,7 @@ const folders = [
   { name: "resized/cafe-main-thumbnail", width: 176, height: 176 },
   { name: "resized/cafe-thumbnail", width: 176, height: 176 },
   { name: "resized/menu-thumbnail", width: 176, height: 176 },
-  { name: "resized/reivew-thumbnail", width: 176, height: 176 },
+  { name: "resized/review-thumbnail", width: 176, height: 176 },
 ];
 
 exports.handler = async (event, _, callback) => {
@@ -40,7 +40,7 @@ exports.handler = async (event, _, callback) => {
         await resizeAndUpload(image, menuThumbnailFolder, filename, extension);
       } else if (lastFolderName === "review") {
         
-        const reviewThumbnailFolder = folders.find(folder => folder.name === "resized/reivew-thumbnail");
+        const reviewThumbnailFolder = folders.find(folder => folder.name === "resized/review-thumbnail");
         await resizeAndUpload(image, reviewThumbnailFolder, filename, extension);
       }
   
