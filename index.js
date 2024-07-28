@@ -58,6 +58,7 @@ exports.handler = async (event, _, callback) => {
   async function resizeImage(image, folder) {
     try {
         const resizedImage = await sharp(image.Body)
+        .rotate()
         .resize({ 
             width: folder.width,
             height: folder.height,
